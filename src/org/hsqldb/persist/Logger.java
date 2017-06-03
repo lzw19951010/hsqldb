@@ -1024,7 +1024,10 @@ public class Logger {
      *      database
      */
     public synchronized void checkpoint(boolean mode) {
-
+    	while(this.database.isWLROTF){
+    		//waiting WriteLogRowOutToFile
+    	}
+    	this.database.isCP = true;
         if (!backupState.compareAndSet(stateNormal, stateCheckpoint)) {
             throw Error.error(ErrorCode.ACCESS_IS_DENIED);
         }
@@ -1032,6 +1035,7 @@ public class Logger {
         try {
             checkpointInternal(mode);
         } finally {
+            this.database.isCP = false;
             backupState.set(stateNormal);
         }
     }

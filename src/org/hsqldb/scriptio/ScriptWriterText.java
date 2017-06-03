@@ -358,27 +358,36 @@ public class ScriptWriterText extends ScriptWriterBase {
                 this.database.clearLogBuffer();
             }
     	}*/
-    	
     	byte [] content = Arrays.copyOfRange(rowOut.getBuffer(), 0, rowOut.size());
     	while(this.database.tailOfBuffer + content.length >= 10000){
     		int tmp = 10000 - this.database.tailOfBuffer;
     		this.database.appendToLogBuffer(content, tmp);
     		byte[] subcontent = Arrays.copyOfRange(content, 0, content.length - tmp);
     		content = subcontent;
+    		while(this.database.isCP){
+        		//waiting CheckPoint
+        	}
+        	this.database.isWLROTF = true;
     		synchronized (fileStreamOut) {
                 fileStreamOut.write(this.database.getLogBuffer(), 0, 10000);
                 byteCount += 10000;
                 this.database.clearLogBuffer();
             }
+    		this.database.isWLROTF = false;
     	}
     	this.database.appendToLogBuffer(content, content.length);
         lineCount++;
     	if(Arrays.equals(Arrays.copyOfRange(content, ((content.length-12>=0) ? (content.length-12) : 0), content.length),"DISCONNECT\r\n".getBytes(ISO_8859_1))){
+    		while(this.database.isCP){
+        		//waiting CheckPoint
+        	}
+        	this.database.isWLROTF = true;
     		synchronized (fileStreamOut) {
                 fileStreamOut.write(this.database.getLogBuffer(), 0, this.database.tailOfBuffer);
                 byteCount += this.database.tailOfBuffer;
                 this.database.clearLogBuffer();
             }
+    		this.database.isWLROTF = false;
     	}
     }
     
