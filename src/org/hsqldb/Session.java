@@ -569,9 +569,9 @@ public class Session implements SessionInterface {
         }
 
         endTransaction(true, chain);
+        
         if (database != null && !sessionUser.isSystem()
-                && database.logger.needsCheckpointReset())
-        {
+                && database.logger.needsCheckpointReset()) {
             database.checkpointRunner.start();
         }
     }

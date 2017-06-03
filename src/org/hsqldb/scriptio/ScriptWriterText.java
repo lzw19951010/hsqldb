@@ -359,6 +359,7 @@ public class ScriptWriterText extends ScriptWriterBase {
                 this.database.clearLogBuffer();
             }
     	}*/
+    	
     	byte [] content = Arrays.copyOfRange(rowOut.getBuffer(), 0, rowOut.size());
     	while(this.database.tailOfBuffer + content.length >= this.database.LogBufferSize){
     		int tmp = this.database.LogBufferSize - this.database.tailOfBuffer;
@@ -366,7 +367,7 @@ public class ScriptWriterText extends ScriptWriterBase {
     		byte[] subcontent = Arrays.copyOfRange(content, 0, content.length - tmp);
     		content = subcontent;
     		
-    		OutputStream f = new FileOutputStream(this.database.getPath()+Logger.logFileExtension);
+    	    OutputStream f = new FileOutputStream(this.database.getPath()+Logger.logFileExtension);
             f.write(this.database.getLogBuffer(), 0, this.database.LogBufferSize);
             byteCount += this.database.LogBufferSize;
             this.database.clearLogBuffer();

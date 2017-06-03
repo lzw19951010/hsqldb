@@ -161,7 +161,7 @@ public class Database {
     public static final int CLOSEMODE_COMPACT     = 3;
     public static final int CLOSEMODE_SCRIPT      = 4;
   //**************************customized log buffer added*********************************
-    //private String 	dbLogBuffer;
+    //private String 			   dbLogBuffer;
     private byte[] dbLogBuffer;
     public int LogBufferSize;
     //current size = tailOfBuffer;
@@ -176,8 +176,6 @@ public class Database {
     public synchronized void clearLogBuffer(){
     	tailOfBuffer = 0;
     }
-  //**************************customized checkpoint related*********************************
-    //public boolean isCP; //checkpoint
     /**
      *  Constructs a new Database object.
      *
@@ -213,7 +211,6 @@ public class Database {
         LogBufferSize = 1<<20;
         this.dbLogBuffer = new byte[LogBufferSize];
         this.tailOfBuffer = 0;
-        //this.isCP = false;
     }
 
     /**

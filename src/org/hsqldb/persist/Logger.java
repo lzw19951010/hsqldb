@@ -1024,6 +1024,7 @@ public class Logger {
      *      database
      */
     public synchronized void checkpoint(boolean mode) {
+    	
         if (!backupState.compareAndSet(stateNormal, stateCheckpoint)) {
             throw Error.error(ErrorCode.ACCESS_IS_DENIED);
         }
