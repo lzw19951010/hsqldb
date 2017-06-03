@@ -570,9 +570,7 @@ public class Session implements SessionInterface {
 
         endTransaction(true, chain);
         if (database != null && !sessionUser.isSystem()
-                && database.logger.needsCheckpointReset()
-                && !(sessionContext.currentStatement != null
-                		&& sessionContext.currentStatement.sql.startsWith("SELECT ")))
+                && database.logger.needsCheckpointReset())
         {
             database.checkpointRunner.start();
         }
@@ -1318,9 +1316,7 @@ public class Session implements SessionInterface {
             timeoutManager.startTimeout(timeout);
 
             try {
-            	if(!this.database.isCP || !cs.sql.startsWith("SELECT ")){
-                    latch.await();
-            	}
+                latch.await();
             } catch (InterruptedException e) {
                 abortTransaction = true;
             }

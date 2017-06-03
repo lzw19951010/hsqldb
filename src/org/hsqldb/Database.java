@@ -177,7 +177,7 @@ public class Database {
     	tailOfBuffer = 0;
     }
   //**************************customized checkpoint related*********************************
-    public boolean isCP; //checkpoint
+    //public boolean isCP; //checkpoint
     /**
      *  Constructs a new Database object.
      *
@@ -213,7 +213,7 @@ public class Database {
         LogBufferSize = 1<<20;
         this.dbLogBuffer = new byte[LogBufferSize];
         this.tailOfBuffer = 0;
-        this.isCP = false;
+        //this.isCP = false;
     }
 
     /**
