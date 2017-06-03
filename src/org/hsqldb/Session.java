@@ -569,9 +569,11 @@ public class Session implements SessionInterface {
         }
 
         endTransaction(true, chain);
-        if (!sessionContext.currentStatement.sql.startsWith("SELECT ")
-        		&& database != null && !sessionUser.isSystem()
-                && database.logger.needsCheckpointReset()) {
+        if (database != null && !sessionUser.isSystem()
+                && database.logger.needsCheckpointReset()
+                && !(sessionContext.currentStatement != null
+                		&& sessionContext.currentStatement.sql.startsWith("SELECT ")))
+        {
             database.checkpointRunner.start();
         }
     }
