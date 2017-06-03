@@ -163,16 +163,15 @@ public class Database {
   //**************************customized log buffer added*********************************
     //private String 	dbLogBuffer;
     private byte[] dbLogBuffer;
+    public int LogBufferSize;
     //current size = tailOfBuffer;
     public int tailOfBuffer;
     public byte[] getLogBuffer(){
     	return dbLogBuffer;
     }
     public synchronized void appendToLogBuffer(byte[] context, int length) {
-    	synchronized(dbLogBuffer){
-    		System.arraycopy(context, 0, dbLogBuffer, tailOfBuffer, length);
-    		tailOfBuffer += length;
-    	}
+    	System.arraycopy(context, 0, dbLogBuffer, tailOfBuffer, length);
+    	tailOfBuffer += length;
     }
     public synchronized void clearLogBuffer(){
     	tailOfBuffer = 0;
@@ -211,7 +210,8 @@ public class Database {
         recoveryMode = urlProperties.getIntegerProperty(
             HsqlDatabaseProperties.url_recover, 0);
         
-        this.dbLogBuffer = new byte[10000];
+        LogBufferSize = 1<<20;
+        this.dbLogBuffer = new byte[LogBufferSize];
         this.tailOfBuffer = 0;
         this.isCP = false;
     }
