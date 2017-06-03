@@ -178,8 +178,7 @@ public class Database {
     	tailOfBuffer = 0;
     }
   //**************************customized checkpoint related*********************************
-    public boolean isCP; //CheckPoint
-    public boolean isWLROTF; //WriteLogRowOutToFile
+    public boolean isCP; //checkpoint
     /**
      *  Constructs a new Database object.
      *
@@ -215,7 +214,6 @@ public class Database {
         this.dbLogBuffer = new byte[10000];
         this.tailOfBuffer = 0;
         this.isCP = false;
-        this.isWLROTF = false;
     }
 
     /**

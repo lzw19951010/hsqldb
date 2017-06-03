@@ -288,6 +288,8 @@ public class StatementCommand extends Statement {
             case StatementTypes.DATABASE_CHECKPOINT : {
                 boolean defrag = ((Boolean) parameters[0]).booleanValue();
 
+                session.database.isCP = true;
+
                 session.database.lobManager.lock();
 
                 try {
@@ -300,6 +302,7 @@ public class StatementCommand extends Statement {
                     return Result.newErrorResult(e, sql);
                 } finally {
                     session.database.lobManager.unlock();
+                    session.database.isCP = false;
                 }
             }
             case StatementTypes.SET_DATABASE_FILES_BACKUP_INCREMENT : {
